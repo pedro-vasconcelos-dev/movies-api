@@ -42,6 +42,9 @@ func (r *InMemoryMovieRepository) Update(id int, movie *domain.Movie) error {
 	if _, exists := r.data[id]; !exists {
 		return errors.New("movie not found")
 	}
+	// preserve the original ID so it doesn't get overwritten if the body
+	// omits or changes the ID field
+	movie.ID = id
 	r.data[id] = *movie
 	return nil
 }
