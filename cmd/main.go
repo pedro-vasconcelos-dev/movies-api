@@ -10,7 +10,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	repo, err := repository.NewSQLServerMovieRepository(
+	repo, err := repository.NewGORMMovieRepository(
 		"dtc.erp-pegasus.com.br",
 		7557,
 		"rpa_bi_rwu",
