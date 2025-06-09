@@ -78,7 +78,6 @@ movie-api/
 - **Body (JSON):**
   ```json
   {
-      "id": 1,
       "title": "Inception",
       "director": "Christopher Nolan",
       "genre": "Sci-Fi",
