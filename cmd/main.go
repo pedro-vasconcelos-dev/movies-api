@@ -10,12 +10,12 @@ import (
 func main() {
 	r := gin.Default()
 
-	repo, err := repository.NewPostgresMovieRepository(
-		"54.207.134.101",
-		6969,
-		"gold_pedro",
-		"@0r53p_dlog%",
-		"RPA_Zap",
+	repo, err := repository.NewSQLServerMovieRepository(
+		"dtc.erp-pegasus.com.br",
+		7557,
+		"rpa_bi_rwu",
+		"9zpzpYoi",
+		"RPA_BI",
 	)
 	if err != nil {
 		panic(err)
