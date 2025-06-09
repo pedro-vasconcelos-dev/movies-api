@@ -30,7 +30,7 @@ movie-api/
 ├── internal/
 │   ├── delivery/        # Camada responsável pelas rotas (HTTP via Gin)
 │   ├── domain/          # Entidades e contratos (interfaces)
-│   ├── repository/      # Implementação de persistência (em memória)
+│   ├── repository/      # Implementação de persistência (SQL Server)
 │   ├── usecase/         # Lógica de negócios (casos de uso)
 ├── go.mod               # Arquivo de definição de dependências
 └── go.sum               # Hashes das dependências
@@ -43,7 +43,7 @@ movie-api/
 - **Linguagem:** Go (Golang)
 - **Framework:** Gin
 - **Arquitetura:** Clean Architecture
-- **Persistência:** In-memory (dados armazenados em memória)
+- **Persistência:** SQL Server
 
 ---
 
@@ -59,6 +59,15 @@ movie-api/
    ```bash
    go mod tidy
    ```
+
+   A conexão com o SQL Server é configurada no arquivo `cmd/main.go`. Por padrão
+   são utilizados os seguintes dados:
+
+   - **Servidor:** `dtc.erp-pegasus.com.br`
+   - **Porta:** `7557`
+   - **Usuário:** `rpa_bi_rwu`
+   - **Senha:** `9zpzpYoi`
+   - **Banco:** `RPA_BI`
 
 3. Execute a aplicação:
    ```bash
