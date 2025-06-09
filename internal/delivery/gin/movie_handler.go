@@ -22,13 +22,17 @@ func NewMovieHandler(r *gin.Engine, usecase *usecase.MovieUsecase) {
 	r.GET("/movies/:id", func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 
 		movie, err := usecase.GetMovieByID(id)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			if err.Error() == "movie not found" {
+				c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			} else {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			}
 			return
 		}
 
