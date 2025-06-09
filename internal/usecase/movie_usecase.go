@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"github.com/pedro-vasconcelos-dev/movies-api/internal/domain"
 )
 
@@ -17,6 +18,13 @@ func (u *MovieUsecase) GetMovieByID(id int) (*domain.Movie, error) {
 }
 
 func (u *MovieUsecase) CreateMovie(movie *domain.Movie) error {
+	existing, err := u.Repo.GetByTitle(movie.Title)
+	if err == nil && existing != nil {
+		return fmt.Errorf("movie title already exists")
+	}
+	if err != nil && err.Error() != "movie not found" {
+		return err
+	}
 	return u.Repo.Create(movie)
 }
 

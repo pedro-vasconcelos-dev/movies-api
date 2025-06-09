@@ -46,7 +46,11 @@ func NewMovieHandler(r *gin.Engine, usecase *usecase.MovieUsecase) {
 			return
 		}
 		if err := usecase.CreateMovie(&movie); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			if err.Error() == "movie title already exists" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			} else {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			}
 			return
 		}
 		c.JSON(http.StatusCreated, movie)

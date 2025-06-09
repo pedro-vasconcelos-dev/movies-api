@@ -31,6 +31,16 @@ func (r *InMemoryMovieRepository) GetByID(id int) (*domain.Movie, error) {
 	return &movie, nil
 }
 
+func (r *InMemoryMovieRepository) GetByTitle(title string) (*domain.Movie, error) {
+	for _, movie := range r.data {
+		if movie.Title == title {
+			m := movie
+			return &m, nil
+		}
+	}
+	return nil, errors.New("movie not found")
+}
+
 func (r *InMemoryMovieRepository) Create(movie *domain.Movie) error {
 	if movie.ID == 0 {
 		movie.ID = r.nextID

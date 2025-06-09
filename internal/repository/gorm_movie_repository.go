@@ -43,6 +43,17 @@ func (r *GORMMovieRepository) GetByID(id int) (*domain.Movie, error) {
 	return &movie, nil
 }
 
+func (r *GORMMovieRepository) GetByTitle(title string) (*domain.Movie, error) {
+	var movie domain.Movie
+	if err := r.db.Where("title = ?", title).First(&movie).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, fmt.Errorf("movie not found")
+		}
+		return nil, err
+	}
+	return &movie, nil
+}
+
 func (r *GORMMovieRepository) Create(movie *domain.Movie) error {
 	return r.db.Create(movie).Error
 }

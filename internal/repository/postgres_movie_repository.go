@@ -58,6 +58,18 @@ func (r *PostgresMovieRepository) GetByID(id int) (*domain.Movie, error) {
 	return &m, nil
 }
 
+func (r *PostgresMovieRepository) GetByTitle(title string) (*domain.Movie, error) {
+	var m domain.Movie
+	row := r.db.QueryRow("SELECT id, title, director, genre, year FROM movies WHERE title=$1", title)
+	if err := row.Scan(&m.ID, &m.Title, &m.Director, &m.Genre, &m.Year); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("movie not found")
+		}
+		return nil, err
+	}
+	return &m, nil
+}
+
 func (r *PostgresMovieRepository) Create(movie *domain.Movie) error {
 	return r.db.QueryRow(
 		"INSERT INTO movies (title, director, genre, year) VALUES ($1, $2, $3, $4) RETURNING id",
