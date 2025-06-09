@@ -31,7 +31,7 @@ func (r *PostgresMovieRepository) GetAll() ([]domain.Movie, error) {
 	}
 	defer rows.Close()
 
-	var movies []domain.Movie
+	movies := []domain.Movie{}
 	for rows.Next() {
 		var m domain.Movie
 		if err := rows.Scan(&m.ID, &m.Title, &m.Director, &m.Genre, &m.Year); err != nil {
@@ -59,8 +59,13 @@ func (r *PostgresMovieRepository) GetByID(id int) (*domain.Movie, error) {
 }
 
 func (r *PostgresMovieRepository) Create(movie *domain.Movie) error {
-	_, err := r.db.Exec("INSERT INTO movies (id, title, director, genre, year) VALUES ($1, $2, $3, $4, $5)", movie.ID, movie.Title, movie.Director, movie.Genre, movie.Year)
-	return err
+	return r.db.QueryRow(
+		"INSERT INTO movies (title, director, genre, year) VALUES ($1, $2, $3, $4) RETURNING id",
+		movie.Title,
+		movie.Director,
+		movie.Genre,
+		movie.Year,
+	).Scan(&movie.ID)
 }
 
 func (r *PostgresMovieRepository) Update(id int, movie *domain.Movie) error {

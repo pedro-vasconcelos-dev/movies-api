@@ -7,11 +7,12 @@ import (
 )
 
 type InMemoryMovieRepository struct {
-	data map[int]domain.Movie
+	data   map[int]domain.Movie
+	nextID int
 }
 
 func NewInMemoryMovieRepository() *InMemoryMovieRepository {
-	return &InMemoryMovieRepository{data: make(map[int]domain.Movie)}
+	return &InMemoryMovieRepository{data: make(map[int]domain.Movie), nextID: 1}
 }
 
 func (r *InMemoryMovieRepository) GetAll() ([]domain.Movie, error) {
@@ -31,8 +32,16 @@ func (r *InMemoryMovieRepository) GetByID(id int) (*domain.Movie, error) {
 }
 
 func (r *InMemoryMovieRepository) Create(movie *domain.Movie) error {
-	if _, exists := r.data[movie.ID]; exists {
-		return errors.New("movie already exists")
+	if movie.ID == 0 {
+		movie.ID = r.nextID
+		r.nextID++
+	} else {
+		if _, exists := r.data[movie.ID]; exists {
+			return errors.New("movie already exists")
+		}
+		if movie.ID >= r.nextID {
+			r.nextID = movie.ID + 1
+		}
 	}
 	r.data[movie.ID] = *movie
 	return nil
