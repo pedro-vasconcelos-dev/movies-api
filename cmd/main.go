@@ -23,6 +23,7 @@ func main() {
 	defer repo.Close()
 	usecase := usecase.MovieUsecase{Repo: repo}
 
+	println("teste")
 	routes.NewMovieHandler(r, &usecase)
 
 	r.Run("localhost:8080")
