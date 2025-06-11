@@ -11,11 +11,11 @@ func main() {
 	r := gin.Default()
 
 	repo, err := repository.NewGORMMovieRepository(
-		"dtc.erp-pegasus.com.br",
-		7557,
-		"rpa_bi_rwu",
-		"9zpzpYoi",
-		"RPA_BI",
+		"localhost",
+		5432,
+		"postgres",
+		"postgres",
+		"movies",
 	)
 	if err != nil {
 		panic(err)

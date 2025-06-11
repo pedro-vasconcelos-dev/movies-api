@@ -30,7 +30,7 @@ movie-api/
 ├── internal/
 │   ├── delivery/        # Camada responsável pelas rotas (HTTP via Gin)
 │   ├── domain/          # Entidades e contratos (interfaces)
-│   ├── repository/      # Implementação de persistência (SQL Server)
+│   ├── repository/      # Implementação de persistência (PostgreSQL)
 │   ├── usecase/         # Lógica de negócios (casos de uso)
 ├── go.mod               # Arquivo de definição de dependências
 └── go.sum               # Hashes das dependências
@@ -43,7 +43,7 @@ movie-api/
 - **Linguagem:** Go (Golang)
 - **Framework:** Gin
 - **Arquitetura:** Clean Architecture
-- **Persistência:** SQL Server
+- **Persistência:** PostgreSQL
 
 ---
 
@@ -60,14 +60,14 @@ movie-api/
    go mod tidy
    ```
 
-   A conexão com o SQL Server é configurada no arquivo `cmd/main.go`. Por padrão
+   A conexão com o PostgreSQL é configurada no arquivo `cmd/main.go`. Por padrão
    são utilizados os seguintes dados:
 
-   - **Servidor:** `dtc.erp-pegasus.com.br`
-   - **Porta:** `7557`
-   - **Usuário:** `rpa_bi_rwu`
-   - **Senha:** `9zpzpYoi`
-   - **Banco:** `RPA_BI`
+   - **Host:** `localhost`
+   - **Porta:** `5432`
+   - **Usuário:** `postgres`
+   - **Senha:** `postgres`
+   - **Banco:** `movies`
 
 3. Execute a aplicação:
    ```bash

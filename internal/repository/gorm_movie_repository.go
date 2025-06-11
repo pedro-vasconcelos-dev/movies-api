@@ -3,21 +3,21 @@ package repository
 import (
 	"fmt"
 
-	"gorm.io/driver/sqlserver"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
 	"github.com/pedro-vasconcelos-dev/movies-api/internal/domain"
 )
 
-// GORMMovieRepository implements MovieRepository using GORM for SQL Server.
+// GORMMovieRepository implements MovieRepository using GORM for PostgreSQL.
 type GORMMovieRepository struct {
 	db *gorm.DB
 }
 
-// NewGORMMovieRepository initializes GORM with SQL Server dialect.
+// NewGORMMovieRepository initializes GORM with PostgreSQL dialect.
 func NewGORMMovieRepository(host string, port int, user, password, dbname string) (*GORMMovieRepository, error) {
-	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%d?database=%s", user, password, host, port, dbname)
-	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
